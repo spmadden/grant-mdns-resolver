@@ -11,6 +11,13 @@ AC_PROG_INSTALL
 
 # Checks for libraries.
 
+AC_ARG_WITH([boost-include-path],
+	[AS_HELP_STRING([--boost-include-path],
+		[location of the boost include headers, defaults to /usr/include])],
+	[BOOST_CFLAGS="-I$withval"],
+	[BOOST_CFLAGS="-I/usr/include"])
+AC_SUBST([BOOST_CFLAGS])
+
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.

@@ -1,0 +1,3 @@
+[submodule "autoconf-boost"]
+	path = autoconf-boost
+	url = https://github.com/tsuna/boost.m4.git
