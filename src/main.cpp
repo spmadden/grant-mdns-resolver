@@ -28,8 +28,8 @@ namespace po = boost::program_options;
 int main(int argc, char** argv) {
 	po::options_description options;
 	options.add_options()
-			("address,a", po::value<std::string>("224.0.0.251"), "multicast address")
-			("port,p", po::value<int>(5353), "Port to xmit on")
+			("address,a", po::value<std::string>()->default_value("224.0.0.251"), "multicast address")
+			("port,p", po::value<int>()->default_value(5353), "Port to xmit on")
 			("help,h", "print this message");
 
 	po::variables_map map;
