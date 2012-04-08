@@ -40,12 +40,16 @@ int main(int argc, char** argv) {
 		std::cerr << "Invalid value for: " << e.get_option_name() << std::endl;
 	} catch (const po::multiple_values& e){
 		std::cerr << "Too many values for: " << e.get_option_name() << std::endl;
+	} catch (const po::unknown_option& e){
+		std::cerr << "Unknown option: " << e.get_option_name() << std::endl;
 	}
 
 	if (map.count("help")) {
 		options.print(std::cout);
 		return 0;
 	}
+
+
 
 	return 0;
 }
