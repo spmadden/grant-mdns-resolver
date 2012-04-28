@@ -16,7 +16,25 @@ AC_PROG_LIBTOOL
 BOOST_REQUIRE([1.47.0])
 BOOST_PROGRAM_OPTIONS
 
+AC_ARG_WITH([gtest-include-path],
+  [AS_HELP_STRING([--with-gtest-include-path],
+    [location of the GTEST headers, defaults to /usr/include/])],
+  [GTEST_CFLAGS="-I$withval"],
+  [GTEST_CFLAGS='-I/usr/include/'])
+AC_SUBST([GTEST_CFLAGS])
+
+AC_ARG_WITH([gtest-lib-path],
+  [AS_HELP_STRING([--with-gtest-lib-path], [location of the GTEST libraries])],
+  [GTEST_LIBS="-L$withval -lgtest"],
+  [GTEST_LIBS='-lgtest'])
+AC_SUBST([GTEST_LIBS])
+
+AC_LANG([C++])
+CPPFLAGS=-I$GTEST_CFLAGS
+
 # Checks for header files.
+AC_CHECK_HEADER([gtest/gtest.h], , 
+	[AC_MSG_ERROR([Cannot find gtest.h])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 

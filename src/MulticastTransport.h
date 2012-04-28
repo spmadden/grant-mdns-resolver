@@ -26,13 +26,50 @@
 
 #include "NetworkTransport.h"
 
+// forward defines.
+namespace boost{
+namespace asio{
+class io_service;
+namespace ip{
+class udp;
+class udp::socket;
+}
+}
+}
+namespace aip = boost::asio::ip;
+
 namespace grant {
 
 class MulticastTransport : public NetworkTransport{
 public:
-	MulticastTransport();
+
+	/*
+	 * Constructs a new MulticastTransport agent
+	 * @param 1 - string IPv4 address in dotted-decimal
+	 * @param 2 - uint32_t port
+	 */
+	MulticastTransport(const std::string&, uint32_t);
 	virtual ~MulticastTransport();
 
+	/*
+	 * Transmits a packet on the wire.
+	 * @param 1 - pointer to a byte array
+	 * @param 2 - size of the byte array
+	 * @returns true if the send is successful.
+	 */
+	virtual bool transmit(const uint8_t*, const std::size_t);
+
+	/*
+	 * Receives a packet from the wire and loads it into the array
+	 * @param 1 - pointer to a byte array
+	 * @param 2 - size of the byte array
+	 * @returns the number of bytes received
+	 */
+	virtual std::size_t receive(uint8_t*, std::size_t);
+
+private:
+	boost::asio::io_service _ioservice;
+	aip::udp::socket _socket;
 
 };
 

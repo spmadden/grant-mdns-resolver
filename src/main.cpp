@@ -23,13 +23,16 @@
 #include <boost/program_options.hpp>
 #include <string>
 
+#include "MulticastTransport.h"
+
 namespace po = boost::program_options;
+using namespace grant;
 
 int main(int argc, char** argv) {
 	po::options_description options;
 	options.add_options()
 			("address,a", po::value<std::string>()->default_value("224.0.0.251"), "multicast address")
-			("port,p", po::value<int>()->default_value(5353), "Port to xmit on")
+			("port,p", po::value<uint32_t>()->default_value(5353), "Port to xmit on")
 			("help,h", "print this message");
 
 	po::variables_map map;
@@ -38,10 +41,13 @@ int main(int argc, char** argv) {
 		po::notify(map);
 	} catch (const po::invalid_option_value& e) {
 		std::cerr << "Invalid value for: " << e.get_option_name() << std::endl;
+		return 0;
 	} catch (const po::multiple_values& e){
 		std::cerr << "Too many values for: " << e.get_option_name() << std::endl;
+		return 0;
 	} catch (const po::unknown_option& e){
 		std::cerr << "Unknown option: " << e.get_option_name() << std::endl;
+		return 0;
 	}
 
 	if (map.count("help")) {
@@ -49,7 +55,10 @@ int main(int argc, char** argv) {
 		return 0;
 	}
 
+	std::string address = map["address"].as<std::string>();
+	uint32_t port = map["port"].as<uint32_t>();
 
+	MulticastTransport transport(address, port);
 
 	return 0;
 }

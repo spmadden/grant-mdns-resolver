@@ -23,15 +23,28 @@
 
 #include "MulticastTransport.h"
 
+#include <boost/asio/ip/udp.hpp>
+#include <boost/asio/ip/multicast.hpp>
+
 namespace grant {
 
-MulticastTransport::MulticastTransport() {
-	// TODO Auto-generated constructor stub
+MulticastTransport::MulticastTransport(const std::string& addr, uint32_t port):
+	_ioservice(), _socket(_ioservice)
+	{
+	try{
+		aip::address multicast_address =
+		  aip::address::from_string(addr);
+		aip::multicast::join_group group(multicast_address);
+		_socket.set_option(group);
 
+		boost::asio::socket_base::reuse_address reuse_addr(true);
+		_socket.set_option(reuse_addr);
+	}catch(const boost::system::system_error& e){
+
+	}
 }
 
 MulticastTransport::~MulticastTransport() {
-	// TODO Auto-generated destructor stub
 }
 
 } /* namespace grant */

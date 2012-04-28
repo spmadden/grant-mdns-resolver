@@ -39,7 +39,7 @@ public:
 	 * @param 2 - size of the byte array
 	 * @returns true if the send is successful.
 	 */
-	virtual bool transmit(const uint8_t*, const std::size_t);
+	virtual bool transmit(const uint8_t*, const std::size_t) = 0;
 
 	/*
 	 * Receives a packet from the wire and loads it into the array
@@ -47,7 +47,7 @@ public:
 	 * @param 2 - size of the byte array
 	 * @returns the number of bytes received
 	 */
-	virtual std::size_t receive(uint8_t*, std::size_t);
+	virtual std::size_t receive(uint8_t*, std::size_t) = 0;
 };
 
 } /* namespace grant */
